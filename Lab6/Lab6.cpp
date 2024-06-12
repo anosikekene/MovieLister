@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 using namespace std;
-const int shelfSpace = 5;
+//const int shelfSpace = 5;
 
 class FullShelf {
 public:
@@ -28,28 +28,33 @@ public:
     }
 };
 class Movie {
+public:
     string title;
     string desc;
     double rating;
+    Movie(const string& t, const string& d, double r) : title(t), desc(d), rating(r) {}
+
 };
 class Shelf {
 public:
-    string movieName;
-    string shelfArray[shelfSpace];
-    Shelf() {
-        for (int i = 0; i < shelfSpace; i++) {
-            shelfArray[i] = "";
-        }
-    }
+    vector <Movie> shelfArray;
+
     int takenSpots = 0;
     void addMovie() {
         try {
-            if (takenSpots >= 5) {
-                throw FullShelf();
-            }
+            //if (takenSpots >= 5) {
+            //    throw FullShelf();
+            //}
+            string title, desc;
+            double rating;
             cout << "What movie would you like to add?: ";
-            cin >> movieName;
-            shelfArray[takenSpots] = movieName;
+            cin >> title;
+            cout << "Movie description?: ";
+            cin >> desc;
+            cout << "Movie rating?: ";
+            cin >> rating;
+            shelfArray.push_back(Movie(title, desc, rating));
+            //shelfArray->at(takenSpots) = movieName;
             //cout << "add to Spot: " << takenSpots << endl;
             takenSpots += 1;
             cout << endl;
@@ -64,8 +69,8 @@ public:
             if (takenSpots <= 0) {
                 throw EmptyShelf();
             }
-            cout << "Removing last movie on shelf.\n"
-                << shelfArray[takenSpots - 1] << " has been removed.\n";
+            cout << shelfArray.back().title << " has been removed.";
+            shelfArray.pop_back();
             //cout << "remove frome Spot: " << takenSpots - 1 << endl;
             takenSpots -= 1;
             cout << endl;
@@ -85,8 +90,12 @@ public:
         return takenSpots;
     }
     void listShelf() {
-        for (int j = 0; j < takenSpots; j++) {
-            cout << shelfArray[j] << endl;
+        for (int j = 0; j < shelfArray.size(); j++) {
+            cout << shelfArray.at(j).title << endl;
+            cout << shelfArray.at(j).desc << endl;
+            cout << shelfArray.at(j).rating << endl;
+            cout << endl;
+            cout << endl;
         }
     }
     int menu() {
